@@ -46,4 +46,8 @@ yarn lint
 
 ## Publishing
 
-TBA
+We use [np](https://github.com/sindresorhus/np) to publish this package. Run:
+
+```sh
+npx np
+```
