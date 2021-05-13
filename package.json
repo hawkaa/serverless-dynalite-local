@@ -1,6 +1,6 @@
 {
   "name": "serverless-dynalite-local",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Serverless plugin to run DynamoDB locally with dynalite.",
   "main": "lib/index.js",
   "repository": "https://github.com/hawkaa/serverless-dynalite-local",
