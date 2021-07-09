@@ -3,7 +3,7 @@ import {
   CreateTableCommandInput,
   DynamoDBClient,
 } from "@aws-sdk/client-dynamodb";
-import dynalite, { DynaliteServer } from "dynalite";
+import dynalite from "dynalite";
 import { getCreateTableCommandInput } from "./util";
 
 class ServerlessDynaliteLocal {
@@ -21,7 +21,7 @@ class ServerlessDynaliteLocal {
   tables: CreateTableCommandInput[];
 
   // Local state variables
-  private server?: DynaliteServer;
+  private server?: ReturnType<typeof dynalite>;
 
   constructor(serverless: any, options: any) {
     this.hooks = {
@@ -37,10 +37,8 @@ class ServerlessDynaliteLocal {
 
   async startHandler() {
     const server = dynalite({ path: this.path });
-    await new Promise<void>((resolve, reject) =>
-      server.listen(this.port, (err: string | undefined) =>
-        err ? reject(err) : resolve()
-      )
+    await new Promise<void>((resolve) =>
+      server.listen(this.port, () => resolve())
     );
     this.server = server;
     this.log(
@@ -75,7 +73,7 @@ class ServerlessDynaliteLocal {
     if (this.server) {
       this.log("Shutting down dynalite server", "serverless-dynalite-local");
       await new Promise<void>((resolve, reject) => {
-        this.server!.close((err?: string) => (err ? reject(err) : resolve()));
+        this.server!.close((err) => (err ? reject(err) : resolve()));
       });
     }
   }
