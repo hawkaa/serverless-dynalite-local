@@ -18,7 +18,7 @@
   "scripts": {
     "watch": "tsc -p . --watch",
     "build": "tsc -p .",
-    "lint": "prettier --check src/",
+    "lint": "prettier --check src/*",
     "test": "ava",
     "deploy": "np"
   },

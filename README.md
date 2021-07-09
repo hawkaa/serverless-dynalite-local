@@ -33,14 +33,22 @@ Install the plugin with `yarn add --dev serverless-dynalite-local`. Add
 `serverless-dynalite-local` to your `serverless.yml` `plugins` key, BEFORE
 `serverless-offline`.
 
-The server will start up at `http://localhost:4567` and use `dynalite/` as a
-data directory. Connect to the database like this:
+By default the server will start up at `http://localhost:4567` and use
+`dynalite/` as a data directory. Connect to the database like this:
 
 ```typescript
 const client = new DynamoDBClient({
   endpoint: "http://localhost:4567",
 });
 ```
+
+The following options are supported in `custom.dynalite` in `serverless.yml`:
+
+| Option | Description | Type | Default value |
+| ------ | ----------- | ---- | ------------- |
+| port   | The port to listen on | number | 4567 |
+| path   | The path to use for the LevelDB store | string | ./dynalite |
+| inMemory | Whether to only store data in memory (the path option will be ignored if this is true) | boolean | false |
 
 ## Future plans
 

@@ -1,11 +1,8 @@
 declare module "dynalite" {
-  type DynaliteServer = {
-    listen: (port: number, callback: (err?: string) => void) => void;
-    close: (callback: (err?: string) => void) => void;
-  };
+  import { Server } from "http";
 
   type DynaliteOptions = {
-    path: string;
+    path?: string;
   };
-  export default function dynalite(opts?: DynaliteOptions): DynaliteServer;
+  export default function dynalite(opts?: DynaliteOptions): Server;
 }
