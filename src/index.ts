@@ -61,7 +61,7 @@ class ServerlessDynaliteLocal {
     );
 
     const client = new DynamoDBClient({
-      endpoint: "http://localhost:4567",
+      endpoint: `http://localhost:${port}`,
     });
 
     await Promise.all(
