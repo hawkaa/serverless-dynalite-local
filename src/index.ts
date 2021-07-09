@@ -4,6 +4,7 @@ import {
   DynamoDBClient,
 } from "@aws-sdk/client-dynamodb";
 import dynalite from "dynalite";
+import { AddressInfo } from "net";
 import { getCreateTableCommandInput } from "./util";
 
 class ServerlessDynaliteLocal {
@@ -13,7 +14,7 @@ class ServerlessDynaliteLocal {
   // Logging function, stolen from the serverless object
   log: (str: string, pluginName: string) => void;
 
-  // Hard coded port for dynalite
+  // Default port for dynalite
   port = 4567;
   path = "./dynalite";
 
@@ -33,6 +34,10 @@ class ServerlessDynaliteLocal {
     this.log = (str: string, pluginName: string) =>
       serverless.cli.log(str, pluginName);
     this.tables = getCreateTableCommandInput(serverless.service.resources);
+
+    if (serverless.service.custom.dynalite?.port != null) {
+      this.port = serverless.service.custom.dynalite.port;
+    }
   }
 
   async startHandler() {
@@ -41,8 +46,9 @@ class ServerlessDynaliteLocal {
       server.listen(this.port, () => resolve())
     );
     this.server = server;
+    const { port } = this.server.address() as AddressInfo;
     this.log(
-      `Dynalite listening on http://localhost:${this.port}`,
+      `Dynalite listening on http://localhost:${port}`,
       "serverless-dynalite-local"
     );
 
