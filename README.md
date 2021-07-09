@@ -46,7 +46,9 @@ The following options are supported in `custom.dynalite` in `serverless.yml`:
 
 | Option | Description | Type | Default value |
 | ------ | ----------- | ---- | ------------- |
-| port   | The port that Dynalite will listen to | number | 4567 |
+| port   | The port to listen on | number | 4567 |
+| path   | The path to use for the LevelDB store | string | ./dynalite |
+| inMemory | Whether to only store data in memory (the path option will be ignored if this is true) | boolean | false |
 
 ## Future plans
 

@@ -16,7 +16,7 @@ class ServerlessDynaliteLocal {
 
   // Default port for dynalite
   port = 4567;
-  path = "./dynalite";
+  path: string | undefined = "./dynalite";
 
   // Table definitions. Using the CreateTableCommandInput as type? Hack or not?
   tables: CreateTableCommandInput[];
@@ -37,6 +37,14 @@ class ServerlessDynaliteLocal {
 
     if (serverless.service.custom.dynalite?.port != null) {
       this.port = serverless.service.custom.dynalite.port;
+    }
+
+    if (serverless.service.custom.dynalite?.path != null) {
+      this.path = serverless.service.custom.dynalite.path;
+    }
+
+    if (serverless.service.custom.dynalite?.inMemory) {
+      this.path = undefined;
     }
   }
 
