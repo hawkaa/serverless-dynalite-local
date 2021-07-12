@@ -23,10 +23,13 @@ function isDynamoDBResource(resource: Resource): resource is DynamoDBResource {
   return resource.Type === "AWS::DynamoDB::Table";
 }
 
+type AWSResourceList = { Resources: { [key: string]: Resource } }
+
 export function getCreateTableCommandInput(
-  resources: { Resources: { [key: string]: Resource } }[]
+  resources: AWSResourceList[] | AWSResourceList
 ): CreateTableCommandInput[] {
-  const flattenedResources = resources.flatMap((r) =>
+  const resourcesList = Array.isArray(resources) ? resources : [resources];
+  const flattenedResources = resourcesList.flatMap((r) =>
     Object.values(r.Resources)
   );
   return flattenedResources.filter(isDynamoDBResource).map((r) => r.Properties);
