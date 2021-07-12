@@ -43,6 +43,44 @@ test("getTableNames should be able to extract a dynamo db table name", (t) => {
   );
 });
 
+test("getTableNames should be able to extract a dynamo db table name when resources is not a list", (t) => {
+  t.deepEqual(
+    getCreateTableCommandInput(
+      {
+        Resources: {
+          MyTable: {
+            Type: "AWS::DynamoDB::Table",
+            Properties: {
+              TableName: "my-table",
+              AttributeDefinitions: [
+                { AttributeName: "id", AttributeType: "S" },
+              ],
+              KeySchema: [
+                {
+                  AttributeName: "id",
+                  KeyType: "HASH",
+                },
+              ],
+            },
+          },
+        },
+      },
+    ),
+    [
+      {
+        TableName: "my-table",
+        AttributeDefinitions: [{ AttributeName: "id", AttributeType: "S" }],
+        KeySchema: [
+          {
+            AttributeName: "id",
+            KeyType: "HASH",
+          },
+        ],
+      },
+    ]
+  );
+});
+
 test("getTableNames should be able to extract a dynamo db table names with other resources and different stacks", (t) => {
   t.deepEqual(
     getCreateTableCommandInput([
